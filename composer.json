@@ -1,0 +1,26 @@
+{
+    "name": "echodb/demo",
+    "description": "EchoDB — The Sound of Change. A PHP 8.3 CDC demo with SSE, animations, and sound.",
+    "type": "project",
+    "require": {
+        "php": "^8.3",
+        "monolog/monolog": "^3.5",
+        "vlucas/phpdotenv": "^5.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.11",
+        "squizlabs/php_codesniffer": "^3.9"
+    },
+    "scripts": {
+        "post-create-project-cmd": [
+            "@php -r \"if (!is_dir('logs')) { mkdir('logs', 0775, true); }\""
+        ]
+    },
+    "minimum-stability": "stable",
+    "license": "MIT"
+}

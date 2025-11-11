@@ -1,0 +1,45 @@
+{
+    "_readme": [
+        "This lock file is generated manually for the demo repository.",
+        "Run composer install to refresh dependencies."
+    ],
+    "content-hash": "",
+    "packages": [
+        {
+            "name": "monolog/monolog",
+            "version": "3.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Seldaek/monolog.git",
+                "reference": ""
+            },
+            "require": {
+                "php": "^8.1"
+            }
+        },
+        {
+            "name": "vlucas/phpdotenv",
+            "version": "5.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vlucas/phpdotenv.git",
+                "reference": ""
+            },
+            "require": {
+                "php": "^8.1"
+            }
+        }
+    ],
+    "packages-dev": [
+        {
+            "name": "phpstan/phpstan",
+            "version": "1.11.4"
+        },
+        {
+            "name": "squizlabs/php_codesniffer",
+            "version": "3.9.0"
+        }
+    ],
+    "minimum-stability": "stable",
+    "plugin-api-version": "2.6.0"
+}
