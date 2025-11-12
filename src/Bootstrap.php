@@ -73,6 +73,11 @@ class Bootstrap
             FILTER_VALIDATE_BOOL
         );
 
+        $configuredBasePath = getenv('APP_BASE_PATH');
+        if ($configuredBasePath !== false) {
+            $config['base_path'] = (string) $configuredBasePath;
+        }
+
         $config['db'] = [
             'host' => getenv('DB_HOST') ?: $config['db']['host'],
             'port' => (int) (getenv('DB_PORT') ?: $config['db']['port']),

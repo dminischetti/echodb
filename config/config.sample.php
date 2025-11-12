@@ -5,6 +5,7 @@ return [
     'app_version' => '1.0.0',
     'environment' => 'production',
     'display_errors' => false,
+    'base_path' => '',
     'db' => [
         'host' => '127.0.0.1',
         'port' => 3306,

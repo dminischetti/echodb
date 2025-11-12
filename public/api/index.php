@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 use App\Bootstrap;
 use App\Router;
+use App\Support\PathResolver;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 $bootstrap = Bootstrap::getInstance();
-$router = new Router();
 $config = $bootstrap->getConfig();
+$basePath = PathResolver::resolveBasePath($config['base_path'] ?? null, $_SERVER['SCRIPT_NAME'] ?? null);
+$router = new Router($basePath);
 $database = $bootstrap->getDatabase();
 
 $origin = $_SERVER['HTTP_ORIGIN'] ?? null;
