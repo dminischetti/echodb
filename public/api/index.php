@@ -11,7 +11,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 $bootstrap = Bootstrap::getInstance();
 $config = $bootstrap->getConfig();
 $basePath = PathResolver::resolveBasePath($config['base_path'] ?? null, $_SERVER['SCRIPT_NAME'] ?? null);
-$router = new Router($basePath);
+$router = new Router($basePath, $bootstrap->getLogger());
 $database = $bootstrap->getDatabase();
 
 $origin = $_SERVER['HTTP_ORIGIN'] ?? null;
