@@ -19,9 +19,10 @@ jobs:
           php-version: '8.3'
           coverage: none
 
-      - name: Install dependencies
+      - name: Install dependencies locally
+        if: ${{ !contains(github.event.head_commit.message, '[skip-composer]') }}
         run: composer install --no-dev --prefer-dist --optimize-autoloader
-
+      
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
