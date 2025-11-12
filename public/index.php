@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Bootstrap;
+use App\Support\PathResolver;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -11,6 +12,7 @@ $config = $bootstrap->getConfig();
 $appName = $config['app_name'] ?? 'EchoDB';
 $appVersion = $config['app_version'] ?? 'dev';
 $repoUrl = $config['app_repo'] ?? 'https://github.com/dominicminischetti/echodb';
+$basePath = PathResolver::resolveBasePath($config['base_path'] ?? null, $_SERVER['SCRIPT_NAME'] ?? null);
 
 if (!function_exists('assetVersion')) {
     /**
@@ -18,7 +20,7 @@ if (!function_exists('assetVersion')) {
      */
     function assetVersion(string $relativePath, string $fallback): string
     {
-        $fullPath = __DIR__ . $relativePath;
+        $fullPath = __DIR__ . '/' . ltrim($relativePath, '/');
         if (is_file($fullPath)) {
             $modifiedTime = filemtime($fullPath);
             if ($modifiedTime !== false) {
@@ -30,8 +32,27 @@ if (!function_exists('assetVersion')) {
     }
 }
 
-$cssVersion = assetVersion('/css/style.css', (string) $appVersion);
-$jsVersion = assetVersion('/js/main.js', (string) $appVersion);
+if (!function_exists('basePathUri')) {
+    /**
+     * Prefix a relative path with the configured application base path.
+     */
+    function basePathUri(string $relativePath, string $basePath): string
+    {
+        $normalizedRelative = '/' . ltrim($relativePath, '/');
+        if ($basePath === '') {
+            return $normalizedRelative;
+        }
+
+        return rtrim($basePath, '/') . $normalizedRelative;
+    }
+}
+
+$apiBase = rtrim(basePathUri('api', $basePath), '/');
+$cssVersion = assetVersion('css/style.css', (string) $appVersion);
+$jsVersion = assetVersion('js/main.js', (string) $appVersion);
+$apiEventsPath = basePathUri('api/events', $basePath);
+$apiStreamPath = basePathUri('api/stream', $basePath);
+$apiStatsPath = basePathUri('api/stats', $basePath);
 ?>
 <!DOCTYPE html>
 <html lang="en" data-app-version="<?= htmlspecialchars($appVersion, ENT_QUOTES) ?>">
@@ -42,14 +63,14 @@ $jsVersion = assetVersion('/js/main.js', (string) $appVersion);
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css?v=<?= htmlspecialchars($cssVersion, ENT_QUOTES) ?>">
-    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="<?= htmlspecialchars(basePathUri('css/style.css', $basePath), ENT_QUOTES) ?>?v=<?= htmlspecialchars($cssVersion, ENT_QUOTES) ?>">
+    <link rel="icon" href="<?= htmlspecialchars(basePathUri('assets/logo.svg', $basePath), ENT_QUOTES) ?>" type="image/svg+xml">
 </head>
-<body class="theme-dark" data-api-base="/api">
+<body class="theme-dark" data-api-base="<?= htmlspecialchars($apiBase, ENT_QUOTES) ?>">
     <div class="grain"></div>
     <header class="site-header" aria-label="Primary">
         <a href="#hero" class="brand" aria-label="<?= htmlspecialchars($appName) ?> home">
-            <img src="/assets/logo.svg" alt="<?= htmlspecialchars($appName) ?> logo" class="brand-mark">
+            <img src="<?= htmlspecialchars(basePathUri('assets/logo.svg', $basePath), ENT_QUOTES) ?>" alt="<?= htmlspecialchars($appName) ?> logo" class="brand-mark">
             <span class="brand-name"><?= htmlspecialchars($appName) ?></span>
         </a>
         <nav class="site-nav" aria-label="Main navigation">
@@ -243,10 +264,10 @@ $jsVersion = assetVersion('/js/main.js', (string) $appVersion);
                     <h3>REST Endpoints</h3>
                     <div class="code-block" data-animate>
                         <button type="button" class="copy-button" data-copy-target="code-api" aria-label="Copy API snippet">Copy</button>
-                        <pre id="code-api"><code>GET /api/events?limit=20
-GET /api/stream (SSE)
-GET /api/stats
-POST /api/events
+                        <pre id="code-api"><code>GET <?= htmlspecialchars($apiEventsPath, ENT_QUOTES) ?>?limit=20
+GET <?= htmlspecialchars($apiStreamPath, ENT_QUOTES) ?> (SSE)
+GET <?= htmlspecialchars($apiStatsPath, ENT_QUOTES) ?>
+POST <?= htmlspecialchars($apiEventsPath, ENT_QUOTES) ?>
 Content-Type: application/json
 {
   "table": "orders",
@@ -264,7 +285,7 @@ Content-Type: application/json
                     <h3>Client Hook</h3>
                     <div class="code-block" data-animate>
                         <button type="button" class="copy-button" data-copy-target="code-examples" aria-label="Copy client snippet">Copy</button>
-                        <pre id="code-examples"><code>const stream = new EventSource('/api/stream');
+                        <pre id="code-examples"><code>const stream = new EventSource('<?= htmlspecialchars($apiStreamPath, ENT_QUOTES) ?>');
 stream.addEventListener('update', (event) => {
   const payload = JSON.parse(event.data);
   animate(payload.type);
@@ -297,6 +318,6 @@ stream.addEventListener('update', (event) => {
         </div>
     </footer>
 
-    <script type="module" src="/js/main.js?v=<?= htmlspecialchars($jsVersion, ENT_QUOTES) ?>"></script>
+    <script type="module" src="<?= htmlspecialchars(basePathUri('js/main.js', $basePath), ENT_QUOTES) ?>?v=<?= htmlspecialchars($jsVersion, ENT_QUOTES) ?>"></script>
 </body>
 </html>

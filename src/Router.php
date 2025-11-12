@@ -9,6 +9,20 @@ class Router
     /** @var array<string, callable> */
     private array $routes = [];
 
+    private string $basePath;
+
+    public function __construct(string $basePath = '')
+    {
+        $normalized = trim($basePath);
+        if ($normalized === '' || $normalized === '/') {
+            $this->basePath = '';
+
+            return;
+        }
+
+        $this->basePath = rtrim('/' . ltrim($normalized, '/'), '/');
+    }
+
     public function get(string $path, callable $handler): void
     {
         $this->addRoute('GET', $path, $handler);
@@ -27,6 +41,7 @@ class Router
     public function dispatch(string $method, string $uri): void
     {
         $path = parse_url($uri, PHP_URL_PATH) ?: '/';
+        $path = $this->stripBasePath($path);
         $path = rtrim($path, '/') ?: '/';
 
         if (!isset($this->routes[$method . $path])) {
@@ -45,5 +60,24 @@ class Router
     {
         $normalizedPath = rtrim($path, '/') ?: '/';
         $this->routes[$method . $normalizedPath] = $handler;
+    }
+
+    private function stripBasePath(string $path): string
+    {
+        if ($this->basePath === '') {
+            return $path;
+        }
+
+        if ($path === $this->basePath || $path === $this->basePath . '/') {
+            return '/';
+        }
+
+        if (str_starts_with($path, $this->basePath . '/')) {
+            $stripped = substr($path, strlen($this->basePath));
+
+            return $stripped === '' ? '/' : $stripped;
+        }
+
+        return $path;
     }
 }
