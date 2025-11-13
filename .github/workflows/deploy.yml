@@ -27,19 +27,16 @@ jobs:
         run: |
           rm -rf deploy
           mkdir deploy
+
+          # Copy the entire project except .git and the deploy folder itself
           rsync -a \
-            --delete \
-            --prune-empty-dirs \
-            --include='index.php' \
-            --include='composer.json' \
-            --include='composer.lock' \
-            --include='.env.example' \
-            --include='config/***' \
-            --include='public/***' \
-            --include='src/***' \
-            --include='vendor/***' \
-            --exclude='*' \
-            ./ deploy
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='deploy/' \
+            ./ ./deploy/
+
+          # Flatten public/ into deploy root
+          rsync -a ./public/ ./deploy/
 
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -49,13 +46,16 @@ jobs:
           password: ${{ secrets.FTP_PASS }}
           protocol: ftps
           port: 21
+
+          # Upload what we prepared
           local-dir: ./deploy/
           server-dir: /public_html/lab/echodb/
+
           exclude: |
             **/.git*
             **/.github*
             **/node_modules/**
             **/tests/**
             **/sql/**
-            **/docs/**
             **/*.yml
+
