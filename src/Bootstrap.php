@@ -57,8 +57,13 @@ class Bootstrap
     private function loadConfig(): array
     {
         $baseDir = dirname(__DIR__);
-        $config = require $baseDir . '/config/config.sample.php';
+        $configPath = $baseDir . '/config/config.php';
+        if (!file_exists($configPath)) {
+            $configPath = $baseDir . '/config/config.sample.php';
+        }
 
+        $config = require $configPath;
+        
         $envPath = $baseDir;
         if (file_exists($baseDir . '/.env')) {
             $dotenv = Dotenv::createImmutable($envPath);
