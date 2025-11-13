@@ -36,15 +36,14 @@ $bootstrap = Bootstrap::getInstance();
 $config = $bootstrap->getConfig();
 $appName = $config['app_name'] ?? 'EchoDB';
 $appVersion = $config['app_version'] ?? 'dev';
-$repoUrl = $config['app_repo'] ?? 'https://github.com/dominicminischetti/echodb';
+$repoUrl = $config['app_repo'] ?? 'https://github.com/dminischetti/echodb';
 $basePath = PathResolver::resolveBasePath($config['base_path'] ?? null, $_SERVER['SCRIPT_NAME'] ?? null);
 
 if (!function_exists('assetVersion')) {
     /**
      * Generate a cache-busting version string for public assets.
      */
-    function assetVersion(string $relativePath, string $fallback): string
-    {
+    function assetVersion(string $relativePath, string $fallback): string {
         $fullPath = __DIR__ . '/' . ltrim($relativePath, '/');
         if (is_file($fullPath)) {
             $modifiedTime = filemtime($fullPath);
@@ -61,8 +60,7 @@ if (!function_exists('basePathUri')) {
     /**
      * Prefix a relative path with the configured application base path.
      */
-    function basePathUri(string $relativePath, string $basePath): string
-    {
+    function basePathUri(string $relativePath, string $basePath): string {
         $normalizedRelative = '/' . ltrim($relativePath, '/');
         if ($basePath === '') {
             return $normalizedRelative;
@@ -81,6 +79,7 @@ $apiStatsPath = basePathUri('api/stats', $basePath);
 ?>
 <!DOCTYPE html>
 <html lang="en" data-app-version="<?= htmlspecialchars($appVersion, ENT_QUOTES) ?>">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -91,6 +90,7 @@ $apiStatsPath = basePathUri('api/stats', $basePath);
     <link rel="stylesheet" href="<?= htmlspecialchars(basePathUri('css/style.css', $basePath), ENT_QUOTES) ?>?v=<?= htmlspecialchars($cssVersion, ENT_QUOTES) ?>">
     <link rel="icon" href="<?= htmlspecialchars(basePathUri('assets/logo.svg', $basePath), ENT_QUOTES) ?>" type="image/svg+xml">
 </head>
+
 <body class="theme-dark" data-api-base="<?= htmlspecialchars($apiBase, ENT_QUOTES) ?>">
     <div class="grain"></div>
     <header class="site-header" aria-label="Primary">
@@ -331,10 +331,14 @@ stream.addEventListener('update', (event) => {
         </div>
         <div class="footer-links" role="navigation" aria-label="External links">
             <a href="<?= htmlspecialchars($repoUrl, ENT_QUOTES) ?>" target="_blank" rel="noreferrer" aria-label="GitHub">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2c-3.34.73-4.04-1.61-4.04-1.61a3.18 3.18 0 0 0-1.34-1.77c-1.1-.75.08-.74.08-.74a2.52 2.52 0 0 1 1.84 1.24 2.56 2.56 0 0 0 3.5 1 2.55 2.55 0 0 1 .76-1.6c-2.67-.3-5.47-1.34-5.47-5.95a4.66 4.66 0 0 1 1.24-3.24 4.32 4.32 0 0 1 .12-3.2s1-.32 3.3 1.23a11.4 11.4 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23a4.32 4.32 0 0 1 .12 3.2 4.66 4.66 0 0 1 1.24 3.24c0 4.62-2.81 5.64-5.49 5.94a2.86 2.86 0 0 1 .82 2.22v3.3c0 .32.22.7.83.58A12 12 0 0 0 12 .5Z"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2c-3.34.73-4.04-1.61-4.04-1.61a3.18 3.18 0 0 0-1.34-1.77c-1.1-.75.08-.74.08-.74a2.52 2.52 0 0 1 1.84 1.24 2.56 2.56 0 0 0 3.5 1 2.55 2.55 0 0 1 .76-1.6c-2.67-.3-5.47-1.34-5.47-5.95a4.66 4.66 0 0 1 1.24-3.24 4.32 4.32 0 0 1 .12-3.2s1-.32 3.3 1.23a11.4 11.4 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23a4.32 4.32 0 0 1 .12 3.2 4.66 4.66 0 0 1 1.24 3.24c0 4.62-2.81 5.64-5.49 5.94a2.86 2.86 0 0 1 .82 2.22v3.3c0 .32.22.7.83.58A12 12 0 0 0 12 .5Z" />
+                </svg>
             </a>
             <a href="https://minischetti.org" target="_blank" rel="noreferrer" aria-label="Portfolio">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5Zm7 2 7 7-7 7-7-7 7-7Zm0 3.83L8.83 12 12 15.17 15.17 12 12 8.83Z"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 3a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5Zm7 2 7 7-7 7-7-7 7-7Zm0 3.83L8.83 12 12 15.17 15.17 12 12 8.83Z" />
+                </svg>
             </a>
         </div>
         <div class="footer-controls">
@@ -345,4 +349,5 @@ stream.addEventListener('update', (event) => {
 
     <script type="module" src="<?= htmlspecialchars(basePathUri('js/main.js', $basePath), ENT_QUOTES) ?>?v=<?= htmlspecialchars($jsVersion, ENT_QUOTES) ?>"></script>
 </body>
+
 </html>
