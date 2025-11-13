@@ -3,9 +3,34 @@
 declare(strict_types=1);
 
 use App\Bootstrap;
+use App\Support\BootstrapPaths;
 use App\Support\PathResolver;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+$projectRoot = realpath(__DIR__ . '/..');
+if ($projectRoot === false || !is_dir($projectRoot . '/vendor')) {
+    $projectRoot = __DIR__;
+}
+
+$bootstrapPathsFile = $projectRoot . '/src/Support/BootstrapPaths.php';
+if (!file_exists($bootstrapPathsFile)) {
+    http_response_code(500);
+    echo 'Fatal error: Bootstrap path resolver not found.';
+    exit;
+}
+
+require_once $bootstrapPathsFile;
+
+$autoload = BootstrapPaths::resolve('vendor/autoload.php');
+
+if (!file_exists($autoload)) {
+    http_response_code(500);
+    echo 'Fatal error: vendor/autoload.php not found.';
+    exit;
+}
+
+require_once $autoload;
+
+require_once BootstrapPaths::resolve('src/Bootstrap.php');
 
 $bootstrap = Bootstrap::getInstance();
 $config = $bootstrap->getConfig();
