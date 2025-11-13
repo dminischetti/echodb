@@ -28,11 +28,15 @@ jobs:
           rm -rf deploy
           mkdir deploy
 
-          # Copy the entire project except .git and the deploy folder itself
+          # Copy the entire project except CI/VCS/build artifacts
           rsync -a \
             --exclude='.git/' \
             --exclude='.github/' \
             --exclude='deploy/' \
+            --exclude='node_modules/' \
+            --exclude='sql/' \
+            --exclude='tests/' \
+            --exclude='docs/' \
             ./ ./deploy/
 
           # Flatten public/ into deploy root
@@ -57,5 +61,6 @@ jobs:
             **/node_modules/**
             **/tests/**
             **/sql/**
-            **/*.yml
+            **/docs/**
+            **/deploy/**
 
