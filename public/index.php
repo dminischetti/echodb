@@ -47,38 +47,6 @@ if (!function_exists('basePathUri')) {
     }
 }
 
-if (!function_exists('publicAssetUri')) {
-    /**
-     * Resolve a URI for an asset that lives within the public directory.
-     */
-    function publicAssetUri(string $relativePath, string $basePath): string
-    {
-        $normalizedRelative = ltrim($relativePath, '/');
-        if ($normalizedRelative === '') {
-            return basePathUri('', $basePath);
-        }
-
-        $documentRoot = $_SERVER['DOCUMENT_ROOT'] ?? '';
-        $documentRootReal = $documentRoot !== '' ? realpath($documentRoot) : false;
-        $publicDirReal = realpath(__DIR__);
-        $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
-
-        $shouldPrefixPublic = true;
-
-        if ($basePath !== '' && preg_match('#/public$#', $basePath) === 1) {
-            $shouldPrefixPublic = false;
-        } elseif ($documentRootReal !== false && $publicDirReal !== false && $documentRootReal === $publicDirReal) {
-            $shouldPrefixPublic = false;
-        } elseif ($scriptName !== '' && str_contains($scriptName, '/public/')) {
-            $shouldPrefixPublic = false;
-        }
-
-        $assetBase = $shouldPrefixPublic ? basePathUri('public', $basePath) : $basePath;
-
-        return basePathUri($normalizedRelative, $assetBase);
-    }
-}
-
 $apiBase = rtrim(basePathUri('api', $basePath), '/');
 $cssVersion = assetVersion('css/style.css', (string) $appVersion);
 $jsVersion = assetVersion('js/main.js', (string) $appVersion);
