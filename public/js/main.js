@@ -87,6 +87,7 @@ function init() {
     bindDemoControls();
     bindThemeToggles();
     bindSoundToggles();
+    bindSoundUnlock();
     bindTabs();
     bindCopyButtons();
     observeAnimations();
@@ -412,6 +413,31 @@ function bindSoundToggles() {
             updateSoundButtons(enabled);
         });
     });
+}
+
+function bindSoundUnlock() {
+    const unlockEvents = ['pointerdown', 'touchstart', 'click', 'keydown'];
+
+    function cleanup() {
+        unlockEvents.forEach((event) => {
+            window.removeEventListener(event, attemptUnlock);
+        });
+        document.removeEventListener('visibilitychange', attemptUnlock);
+    }
+
+    function attemptUnlock() {
+        Promise.resolve(soundBoard.unlock()).then((success) => {
+            if (success) {
+                cleanup();
+            }
+        });
+    }
+
+    unlockEvents.forEach((event) => {
+        window.addEventListener(event, attemptUnlock, { passive: true });
+    });
+
+    document.addEventListener('visibilitychange', attemptUnlock);
 }
 
 function updateSoundButtons(enabled) {
