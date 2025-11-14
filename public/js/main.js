@@ -33,7 +33,53 @@ const tabButtons = document.querySelectorAll('[data-tab-target]');
 const tabPanels = document.querySelectorAll('.tab-panel');
 const copyButtons = document.querySelectorAll('.copy-button');
 
+const SEEDED_ORDER_IDS = [1, 2, 3];
+const KNOWN_USER_IDS = [1, 2, 3];
+const knownOrderIds = new Set(SEEDED_ORDER_IDS);
+
 init();
+
+function getRandomKnownOrderId() {
+    const ids = Array.from(knownOrderIds);
+    if (ids.length === 0) {
+        return SEEDED_ORDER_IDS[0];
+    }
+
+    return ids[Math.floor(Math.random() * ids.length)];
+}
+
+function getRandomKnownUserId() {
+    return KNOWN_USER_IDS[Math.floor(Math.random() * KNOWN_USER_IDS.length)];
+}
+
+function registerKnownOrderId(id) {
+    const numericId = Number(id);
+    if (Number.isInteger(numericId) && numericId > 0) {
+        knownOrderIds.add(numericId);
+    }
+}
+
+function forgetKnownOrderId(id) {
+    const numericId = Number(id);
+    if (!Number.isInteger(numericId) || numericId <= 0) {
+        return;
+    }
+
+    knownOrderIds.delete(numericId);
+}
+
+function trackKnownOrderIds(event) {
+    if (!event || event.table !== 'orders') {
+        return;
+    }
+
+    if (event.type === 'delete') {
+        forgetKnownOrderId(event.row_id);
+        return;
+    }
+
+    registerKnownOrderId(event.row_id);
+}
 
 function init() {
     setInitialPayload();
@@ -75,6 +121,7 @@ async function fetchInitialEvents() {
         const payload = await response.json();
         const events = (payload.data || []).map(normalizeEvent).filter(Boolean);
         if (events.length > 0) {
+            events.forEach(trackKnownOrderIds);
             timeline.preload(events);
             stats.insert += events.filter((event) => event.type === 'insert').length;
             stats.update += events.filter((event) => event.type === 'update').length;
@@ -127,6 +174,7 @@ function openStream() {
 function handleIncomingEvent(event) {
     try {
         const payload = normalizeEvent(JSON.parse(event.data));
+        trackKnownOrderIds(payload);
         timeline.append(payload);
         visualizer.trigger(payload.type);
         soundBoard.play(payload.type);
@@ -264,6 +312,8 @@ async function sendEvent(payload, successMessage) {
         if (!response.ok) {
             throw new Error(result.error || 'Request failed');
         }
+        const createdEvent = normalizeEvent(result.data);
+        trackKnownOrderIds(createdEvent);
         showToast(successMessage);
     } catch (error) {
         console.error('Failed to send event', error);
@@ -470,34 +520,39 @@ function safeJson(value) {
 
 function generateRandomPayload() {
     const types = ['insert', 'update', 'delete'];
-    const type = types[Math.floor(Math.random() * types.length)];
+    const requestedType = types[Math.floor(Math.random() * types.length)];
     const actors = ['demo-bot', 'ops-lead', 'scheduler', 'qa-user'];
     const statuses = ['pending', 'processing', 'shipped', 'cancelled'];
+    const effectiveType = knownOrderIds.size === 0 ? 'insert' : requestedType;
     const payload = {
         table: 'orders',
-        row_id: Math.floor(Math.random() * 120) + 1,
-        type,
+        row_id: effectiveType === 'insert' ? 0 : getRandomKnownOrderId(),
+        type: effectiveType,
         actor: actors[Math.floor(Math.random() * actors.length)],
         changes: {},
     };
 
-    if (type === 'insert') {
-        payload.row_id = Math.floor(Math.random() * 500) + 200;
+    if (payload.type === 'insert') {
+        let candidate;
+        do {
+            candidate = Math.floor(Math.random() * 500) + 200;
+        } while (knownOrderIds.has(candidate));
+        payload.row_id = candidate;
         payload.changes = {
-            user_id: Math.floor(Math.random() * 40) + 1,
+            user_id: getRandomKnownUserId(),
             status: statuses[Math.floor(Math.random() * statuses.length)],
             amount: Number((Math.random() * 250 + 25).toFixed(2)),
         };
     }
 
-    if (type === 'update') {
+    if (payload.type === 'update') {
         payload.changes = {
             status: statuses[Math.floor(Math.random() * statuses.length)],
             amount: Number((Math.random() * 180 + 10).toFixed(2)),
         };
     }
 
-    if (type === 'delete') {
+    if (payload.type === 'delete') {
         payload.changes = {};
     }
 
