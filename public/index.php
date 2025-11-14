@@ -327,7 +327,6 @@ stream.addEventListener('update', (event) => {
     <footer class="site-footer" aria-label="Footer">
         <div class="footer-copy">
             <span>&copy; 2025 Dominic Minischetti</span>
-            <p>Dedicated to optimizing performance and building scalable backend systems. I've been crafting fast, reliable solutions since 2012.</p>
         </div>
         <div class="footer-links" role="navigation" aria-label="External links">
             <a href="<?= htmlspecialchars($repoUrl, ENT_QUOTES) ?>" target="_blank" rel="noreferrer" aria-label="GitHub">
