@@ -1,0 +1,12 @@
+includes:
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+
+parameters:
+    level: 6
+    paths:
+        - src
+        - public/api
+    bootstrapFiles:
+        - src/Bootstrap.php
+    ignoreErrors:
+        - '#\\$_SERVER\['

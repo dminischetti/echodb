@@ -1,0 +1,13 @@
+Options -Indexes
+RewriteEngine On
+
+# Route API calls through the dispatcher
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^api/?$ api/index.php [QSA,L]
+RewriteRule ^api/(.*)$ api/index.php [QSA,L]
+
+# Cache static assets
+<FilesMatch "\.(css|js|svg)$">
+    Header set Cache-Control "max-age=31536000, public"
+</FilesMatch>

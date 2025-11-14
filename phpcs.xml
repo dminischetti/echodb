@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<ruleset name="EchoDB">
+    <description>PSR-12 coding standard for EchoDB.</description>
+    <rule ref="PSR12"/>
+    <file>public/api</file>
+    <file>src</file>
+</ruleset>
