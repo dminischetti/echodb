@@ -92,204 +92,188 @@ $apiStatsPath = basePathUri('api/stats', $basePath);
 </head>
 
 <body class="theme-dark" data-api-base="<?= htmlspecialchars($apiBase, ENT_QUOTES) ?>">
-    <div class="grain"></div>
-    <header class="site-header" aria-label="Primary">
-        <a href="#hero" class="brand" aria-label="<?= htmlspecialchars($appName) ?> home">
-            <img src="<?= htmlspecialchars(basePathUri('assets/logo.svg', $basePath), ENT_QUOTES) ?>" alt="<?= htmlspecialchars($appName) ?> logo" class="brand-mark">
-            <span class="brand-name"><?= htmlspecialchars($appName) ?></span>
-        </a>
-        <nav class="site-nav" aria-label="Main navigation">
-            <a href="#live-demo">Live Demo</a>
-            <a href="#architecture">Architecture</a>
-            <a href="#docs">Docs</a>
-        </nav>
-    </header>
+    <div class="app-root">
+        <header class="app-header" aria-label="Primary">
+            <div class="app-shell header-inner">
+                <a href="#hero" class="brand" aria-label="<?= htmlspecialchars($appName) ?> home">
+                    <img src="<?= htmlspecialchars(basePathUri('assets/logo.svg', $basePath), ENT_QUOTES) ?>" alt="<?= htmlspecialchars($appName) ?> logo">
+                    <span><?= htmlspecialchars($appName) ?></span>
+                </a>
+                <nav class="nav-links" aria-label="Main navigation">
+                    <a href="#hero">Overview</a>
+                    <a href="#live-demo">Live Demo</a>
+                    <a href="#architecture">Architecture</a>
+                    <a href="#docs">Docs</a>
+                </nav>
+            </div>
+        </header>
 
-    <main>
-        <section id="hero" class="hero" aria-labelledby="hero-title">
-            <div class="hero-panel glass">
-                <div class="waveform" aria-hidden="true">
-                    <svg viewBox="0 0 600 240" role="presentation">
-                        <path class="wave wave-1" d="M0 120 Q 75 40 150 120 T 300 120 T 450 120 T 600 120"></path>
-                        <path class="wave wave-2" d="M0 130 Q 75 60 150 130 T 300 130 T 450 130 T 600 130"></path>
-                        <path class="wave wave-3" d="M0 110 Q 75 180 150 110 T 300 110 T 450 110 T 600 110"></path>
-                    </svg>
-                </div>
-                <div class="hero-content">
-                    <p class="eyebrow">Minimal Glassmorphic Studio</p>
-                    <h1 id="hero-title"><?= htmlspecialchars($appName) ?></h1>
-                    <p class="hero-lede">Every change has a sound. Compose live database mutations and watch EchoDB translate them into motion and tone.</p>
-                    <div class="hero-actions">
-                        <a class="button primary" href="#live-demo">Try Demo</a>
-                        <a class="button ghost" href="<?= htmlspecialchars($repoUrl, ENT_QUOTES) ?>" target="_blank" rel="noreferrer">View Code</a>
+        <main class="app-main">
+            <div class="app-shell">
+                <section id="hero" class="section hero" aria-labelledby="hero-title">
+                    <div class="surface">
+                        <p class="hero-eyebrow">Realtime database observability</p>
+                        <h1 id="hero-title" class="hero-title"><?= htmlspecialchars($appName) ?></h1>
+                        <p class="hero-lede">Monitor every mutation in motion. EchoDB streams your PostgreSQL changes as living, audible telemetry.</p>
+                        <div class="hero-actions">
+                            <a class="button primary" href="#live-demo">Open playground</a>
+                            <a class="button ghost" href="<?= htmlspecialchars($repoUrl, ENT_QUOTES) ?>" target="_blank" rel="noreferrer">View source</a>
+                        </div>
+                        <dl class="hero-meta">
+                            <div>
+                                <dt>Status</dt>
+                                <dd>Server-Sent Events feed</dd>
+                            </div>
+                            <div>
+                                <dt>Version</dt>
+                                <dd><?= htmlspecialchars($appVersion) ?></dd>
+                            </div>
+                            <div>
+                                <dt>Stack</dt>
+                                <dd>PHP · PostgreSQL · Vanilla JS</dd>
+                            </div>
+                        </dl>
                     </div>
-                    <dl class="hero-meta">
-                        <div>
-                            <dt>Status</dt>
-                            <dd>Live stream via Server-Sent Events</dd>
-                        </div>
-                        <div>
-                            <dt>Version</dt>
-                            <dd><?= htmlspecialchars($appVersion) ?></dd>
-                        </div>
-                        <div>
-                            <dt>Stack</dt>
-                            <dd>PHP · PostgreSQL · Vanilla JS</dd>
-                        </div>
-                    </dl>
-                </div>
-            </div>
-        </section>
-
-        <section id="live-demo" class="section section-demo" aria-labelledby="demo-title">
-            <div class="section-heading">
-                <h2 id="demo-title">Live Demo</h2>
-                <p>Shape a payload, trigger the database, and witness the visual instrument react in real time.</p>
-            </div>
-            <div class="demo-grid">
-                <article class="demo-card glass" aria-labelledby="editor-title">
-                    <header class="card-header">
-                        <div>
-                            <h3 id="editor-title">Mutation Composer</h3>
-                            <p class="card-subtitle">Craft JSON events or tweak the generated samples.</p>
-                        </div>
-                        <span class="chip">JSON</span>
-                    </header>
-                    <label for="payloadInput" class="sr-only">JSON payload</label>
-                    <textarea id="payloadInput" spellcheck="false" aria-describedby="editor-title"></textarea>
-                    <div class="editor-actions">
-                        <button type="button" class="button primary" id="sendPayload">Send Mutation</button>
-                        <button type="button" class="button subtle" id="formatPayload">Beautify</button>
-                        <button type="button" class="button subtle" id="resetPayload">Reset</button>
-                    </div>
-                </article>
-
-                <article class="demo-card glass" aria-labelledby="visualizer-title">
-                    <header class="card-header">
-                        <div>
-                            <h3 id="visualizer-title">Visual Instrument</h3>
-                            <p class="card-subtitle">Echo nodes glow as payloads flow from database to UI.</p>
-                        </div>
-                        <span class="chip live" aria-live="polite">Streaming</span>
-                    </header>
-                    <div class="visual-stage">
-                        <svg id="visualizerCanvas" viewBox="0 0 620 240" role="img" aria-label="Data flow visualizer">
-                            <defs>
-                                <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stop-color="var(--accent-cyan)"></stop>
-                                    <stop offset="100%" stop-color="var(--accent-mint)"></stop>
-                                </linearGradient>
-                                <filter id="glow">
-                                    <feGaussianBlur stdDeviation="12" result="coloredBlur"></feGaussianBlur>
-                                    <feMerge>
-                                        <feMergeNode in="coloredBlur"></feMergeNode>
-                                        <feMergeNode in="SourceGraphic"></feMergeNode>
-                                    </feMerge>
-                                </filter>
-                            </defs>
-                            <g class="flow">
-                                <rect x="40" y="70" width="140" height="70" rx="20" class="node node-db"></rect>
-                                <text x="110" y="110" class="node-label">Database</text>
-                                <rect x="240" y="40" width="140" height="70" rx="20" class="node node-echo"></rect>
-                                <text x="310" y="80" class="node-label">Echo Engine</text>
-                                <rect x="440" y="70" width="140" height="70" rx="20" class="node node-ui"></rect>
-                                <text x="510" y="110" class="node-label">Clients</text>
-                                <path d="M180 100 C 220 40, 260 40, 310 75" class="arc arc-top"></path>
-                                <path d="M310 75 C 360 120, 400 120, 450 100" class="arc arc-bottom"></path>
-                                <path d="M180 110 C 220 160, 260 160, 310 125" class="arc arc-bottom"></path>
-                                <path d="M310 125 C 360 60, 400 60, 450 100" class="arc arc-top"></path>
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="live-stats" role="status" aria-live="polite">
-                        <div class="stat">
-                            <span class="label">Insert</span>
-                            <span class="value" id="stat-insert">0</span>
-                        </div>
-                        <div class="stat">
-                            <span class="label">Update</span>
-                            <span class="value" id="stat-update">0</span>
-                        </div>
-                        <div class="stat">
-                            <span class="label">Delete</span>
-                            <span class="value" id="stat-delete">0</span>
-                        </div>
-                        <div class="stat">
-                            <span class="label">Events/min</span>
-                            <span class="value" id="stat-rpm">0</span>
-                        </div>
-                        <svg id="sparkline" viewBox="0 0 220 60" preserveAspectRatio="none"></svg>
-                    </div>
-                    <div class="timeline-panel" aria-live="polite">
-                        <div class="panel-heading">
-                            <h4>Event Timeline</h4>
-                            <p>Newest first · tap to inspect</p>
-                        </div>
-                        <ul id="timeline" class="timeline"></ul>
-                    </div>
-                </article>
-            </div>
-            <div class="demo-controls" role="group" aria-label="Stream controls">
-                <button type="button" class="button neon" id="randomPayload" data-icon="spark">Random Event</button>
-                <button type="button" class="button ghost" id="pauseStream" data-icon="pause">Pause Stream</button>
-                <button type="button" class="button ghost" data-sound-toggle data-icon="sound">Sound On</button>
-            </div>
-        </section>
-
-        <section id="architecture" class="section architecture" aria-labelledby="architecture-title">
-            <div class="section-heading">
-                <h2 id="architecture-title">Architecture</h2>
-                <p>Glassy nodes reveal how events ripple across EchoDB.</p>
-            </div>
-            <div class="architecture-diagram" role="list">
-                <div class="arch-node" role="listitem" data-tooltip="PostgreSQL triggers emit change payloads">Database</div>
-                <div class="arch-link" aria-hidden="true"></div>
-                <div class="arch-node" role="listitem" data-tooltip="PHP backend streams mutations over SSE">PHP Streamer</div>
-                <div class="arch-link" aria-hidden="true"></div>
-                <div class="arch-node" role="listitem" data-tooltip="Vanilla JS client renders visuals &amp; sound">Client Studio</div>
-            </div>
-            <div class="architecture-cards">
-                <article class="glass arch-card" data-animate>
-                    <h3>Mutation Capture</h3>
-                    <p>PostgreSQL triggers serialize row level changes. Payloads include before/after diffs and actor metadata.</p>
-                </article>
-                <article class="glass arch-card" data-animate>
-                    <h3>Event Broadcast</h3>
-                    <p>A lightweight PHP emitter opens a Server-Sent Events channel, guaranteeing order and low-latency delivery.</p>
-                </article>
-                <article class="glass arch-card" data-animate>
-                    <h3>Multisensory Client</h3>
-                    <p>The browser listens, animates the flow diagram, and orchestrates tones via the Web Audio API.</p>
-                </article>
-            </div>
-        </section>
-
-        <section id="docs" class="section docs" aria-labelledby="docs-title">
-            <div class="section-heading">
-                <h2 id="docs-title">Docs &amp; API</h2>
-                <p>Everything you need to instrument your own dataset with EchoDB.</p>
-                <button type="button" class="button ghost" data-theme-toggle data-icon="theme" aria-label="Toggle theme">Switch Theme</button>
-            </div>
-            <div class="tabs" role="tablist" aria-label="Documentation tabs">
-                <button type="button" class="tab-button active" role="tab" aria-selected="true" data-tab-target="overview">Overview</button>
-                <button type="button" class="tab-button" role="tab" aria-selected="false" data-tab-target="api">API</button>
-                <button type="button" class="tab-button" role="tab" aria-selected="false" data-tab-target="examples">Examples</button>
-            </div>
-            <div class="tab-panels">
-                <section id="tab-overview" class="tab-panel active" role="tabpanel" aria-labelledby="overview">
-                    <h3>How it works</h3>
-                    <p>EchoDB listens to PostgreSQL notifications, transforms them into structured JSON events, and streams them to browsers over Server-Sent Events. The client layers animation, stats, and audio to render each change as a sonic signature.</p>
-                    <ul class="bullet-grid">
-                        <li>Lightweight PHP SSE endpoint</li>
-                        <li>Web Audio instrument with tone palettes per mutation</li>
-                        <li>Framework-free frontend for GitHub Pages deployments</li>
-                    </ul>
                 </section>
-                <section id="tab-api" class="tab-panel" role="tabpanel" aria-labelledby="api">
-                    <h3>REST Endpoints</h3>
-                    <div class="code-block" data-animate>
-                        <button type="button" class="copy-button" data-copy-target="code-api" aria-label="Copy API snippet">Copy</button>
-                        <pre id="code-api"><code>GET <?= htmlspecialchars($apiEventsPath, ENT_QUOTES) ?>?limit=20
+
+                <section id="live-demo" class="section" aria-labelledby="demo-title">
+                    <header class="section-heading">
+                        <h2 id="demo-title">Live Demo</h2>
+                        <p>Compose a payload, stream it to the database, and watch the client render each change as data, tone, and motion.</p>
+                    </header>
+                    <div class="demo-layout">
+                        <article class="surface" aria-labelledby="editor-title">
+                            <header class="panel-header">
+                                <div>
+                                    <h3 id="editor-title">Mutation Composer</h3>
+                                    <p class="panel-subtitle">Author JSON events or tweak the generated sample payload.</p>
+                                </div>
+                                <span class="chip">JSON</span>
+                            </header>
+                            <label for="payloadInput" class="sr-only">JSON payload</label>
+                            <textarea id="payloadInput" spellcheck="false" aria-describedby="editor-title"></textarea>
+                            <div class="editor-actions">
+                                <button type="button" class="button primary" id="sendPayload">Send Mutation</button>
+                                <button type="button" class="button subtle" id="formatPayload">Beautify</button>
+                                <button type="button" class="button subtle" id="resetPayload">Reset</button>
+                            </div>
+                        </article>
+
+                        <article class="surface" aria-labelledby="visualizer-title">
+                            <header class="panel-header">
+                                <div>
+                                    <h3 id="visualizer-title">Stream Visualizer</h3>
+                                    <p class="panel-subtitle">Nodes pulse and counters climb as mutations land.</p>
+                                </div>
+                                <span class="chip live" aria-live="polite">Streaming</span>
+                            </header>
+                            <div class="visual-stage">
+                                <svg id="visualizerCanvas" viewBox="0 0 620 240" role="img" aria-label="Data flow visualizer">
+                                    <defs>
+                                        <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stop-color="var(--accent-cyan)"></stop>
+                                            <stop offset="100%" stop-color="var(--accent)"></stop>
+                                        </linearGradient>
+                                        <filter id="glow">
+                                            <feGaussianBlur stdDeviation="12" result="coloredBlur"></feGaussianBlur>
+                                            <feMerge>
+                                                <feMergeNode in="coloredBlur"></feMergeNode>
+                                                <feMergeNode in="SourceGraphic"></feMergeNode>
+                                            </feMerge>
+                                        </filter>
+                                    </defs>
+                                    <g class="flow">
+                                        <rect x="40" y="70" width="140" height="70" rx="20" class="node node-db"></rect>
+                                        <text x="110" y="110" class="node-label">Database</text>
+                                        <rect x="240" y="40" width="140" height="70" rx="20" class="node node-echo"></rect>
+                                        <text x="310" y="80" class="node-label">Echo Engine</text>
+                                        <rect x="440" y="70" width="140" height="70" rx="20" class="node node-ui"></rect>
+                                        <text x="510" y="110" class="node-label">Clients</text>
+                                        <path d="M180 100 C 220 40, 260 40, 310 75" class="arc arc-top"></path>
+                                        <path d="M310 75 C 360 120, 400 120, 450 100" class="arc arc-bottom"></path>
+                                        <path d="M180 110 C 220 160, 260 160, 310 125" class="arc arc-bottom"></path>
+                                        <path d="M310 125 C 360 60, 400 60, 450 100" class="arc arc-top"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="stat-grid" role="status" aria-live="polite">
+                                <div class="stat-tile">
+                                    <span>Insert</span>
+                                    <span class="stat-value" id="stat-insert">0</span>
+                                </div>
+                                <div class="stat-tile">
+                                    <span>Update</span>
+                                    <span class="stat-value" id="stat-update">0</span>
+                                </div>
+                                <div class="stat-tile">
+                                    <span>Delete</span>
+                                    <span class="stat-value" id="stat-delete">0</span>
+                                </div>
+                                <div class="stat-tile">
+                                    <span>Events/min</span>
+                                    <span class="stat-value" id="stat-rpm">0</span>
+                                </div>
+                            </div>
+                            <div class="sparkline-wrapper">
+                                <svg id="sparkline" viewBox="0 0 220 60" preserveAspectRatio="none"></svg>
+                            </div>
+                            <div class="timeline-panel" aria-live="polite">
+                                <h4>Event Timeline</h4>
+                                <p>Newest first · tap to inspect</p>
+                                <ul id="timeline" class="timeline"></ul>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="surface">
+                        <div class="controls-stack" role="group" aria-label="Stream controls">
+                            <button type="button" class="button neon" id="randomPayload" data-icon="spark">Random Event</button>
+                            <button type="button" class="button ghost" id="pauseStream" data-icon="pause">Pause Stream</button>
+                            <button type="button" class="button ghost" data-sound-toggle data-icon="sound">Sound On</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="architecture" class="section" aria-labelledby="architecture-title">
+                    <header class="section-heading">
+                        <h2 id="architecture-title">Architecture</h2>
+                        <p>Understand the minimal pipeline that turns Postgres triggers into a live developer console.</p>
+                    </header>
+                    <div class="surface architecture-grid" role="list">
+                        <div class="arch-node" role="listitem">PostgreSQL triggers emit change payloads</div>
+                        <div class="arch-node" role="listitem">PHP streamer broadcasts Server-Sent Events</div>
+                        <div class="arch-node" role="listitem">Vanilla JS client renders visual + audio feedback</div>
+                    </div>
+                </section>
+
+                <section id="docs" class="section" aria-labelledby="docs-title">
+                    <header class="section-heading">
+                        <div>
+                            <h2 id="docs-title">Docs &amp; API</h2>
+                            <p>Integrate EchoDB into your own stack with a lightweight API surface.</p>
+                        </div>
+                        <button type="button" class="button ghost" data-theme-toggle data-icon="theme" aria-label="Toggle theme">Switch Theme</button>
+                    </header>
+                    <div class="surface">
+                        <div class="docs-tabs" role="tablist" aria-label="Documentation tabs">
+                            <button type="button" class="tab-button active" id="tab-overview-tab" role="tab" aria-selected="true" aria-controls="tab-overview" data-tab-target="overview">Overview</button>
+                            <button type="button" class="tab-button" id="tab-api-tab" role="tab" aria-selected="false" aria-controls="tab-api" data-tab-target="api">API</button>
+                            <button type="button" class="tab-button" id="tab-examples-tab" role="tab" aria-selected="false" aria-controls="tab-examples" data-tab-target="examples">Examples</button>
+                        </div>
+                        <div class="tab-panels">
+                            <section id="tab-overview" class="tab-panel active" role="tabpanel" aria-labelledby="tab-overview-tab">
+                                <h3>How it works</h3>
+                                <p>EchoDB listens to PostgreSQL notifications, transforms them into structured JSON events, and streams them to browsers over Server-Sent Events. The client layers animation, stats, and audio to render each change as a sonic signature.</p>
+                                <ul>
+                                    <li>Lightweight PHP SSE endpoint</li>
+                                    <li>Web Audio instrument with tone palettes per mutation</li>
+                                    <li>Framework-free frontend for GitHub Pages deployments</li>
+                                </ul>
+                            </section>
+                            <section id="tab-api" class="tab-panel" role="tabpanel" aria-labelledby="tab-api-tab">
+                                <h3>REST Endpoints</h3>
+                                <div class="code-block" data-animate>
+                                    <button type="button" class="button subtle copy-button" data-copy-target="code-api" aria-label="Copy API snippet">Copy</button>
+                                    <pre id="code-api"><code>GET <?= htmlspecialchars($apiEventsPath, ENT_QUOTES) ?>?limit=20
 GET <?= htmlspecialchars($apiStreamPath, ENT_QUOTES) ?> (SSE)
 GET <?= htmlspecialchars($apiStatsPath, ENT_QUOTES) ?>
 POST <?= htmlspecialchars($apiEventsPath, ENT_QUOTES) ?>
@@ -304,48 +288,53 @@ Content-Type: application/json
     "amount": 72.45
   }
 }</code></pre>
-                    </div>
-                </section>
-                <section id="tab-examples" class="tab-panel" role="tabpanel" aria-labelledby="examples">
-                    <h3>Client Hook</h3>
-                    <div class="code-block" data-animate>
-                        <button type="button" class="copy-button" data-copy-target="code-examples" aria-label="Copy client snippet">Copy</button>
-                        <pre id="code-examples"><code>const stream = new EventSource('<?= htmlspecialchars($apiStreamPath, ENT_QUOTES) ?>');
+                                </div>
+                            </section>
+                            <section id="tab-examples" class="tab-panel" role="tabpanel" aria-labelledby="tab-examples-tab">
+                                <h3>Client Hook</h3>
+                                <div class="code-block" data-animate>
+                                    <button type="button" class="button subtle copy-button" data-copy-target="code-examples" aria-label="Copy client snippet">Copy</button>
+                                    <pre id="code-examples"><code>const stream = new EventSource('<?= htmlspecialchars($apiStreamPath, ENT_QUOTES) ?>');
 stream.addEventListener('update', (event) => {
   const payload = JSON.parse(event.data);
   animate(payload.type);
   playTone(payload.type);
 });</code></pre>
+                                </div>
+                            </section>
+                        </div>
                     </div>
                 </section>
             </div>
-        </section>
-    </main>
+        </main>
+
+        <footer class="site-footer" aria-label="Footer">
+            <div class="app-shell footer-inner">
+                <div class="footer-copy">
+                    <span>&copy; 2025 Dominic Minischetti</span>
+                    <p>Dedicated to optimizing performance and building scalable backend systems. I've been crafting fast, reliable solutions since 2012.</p>
+                </div>
+                <div class="footer-links" role="navigation" aria-label="External links">
+                    <a href="<?= htmlspecialchars($repoUrl, ENT_QUOTES) ?>" target="_blank" rel="noreferrer" aria-label="GitHub">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2c-3.34.73-4.04-1.61-4.04-1.61a3.18 3.18 0 0 0-1.34-1.77c-1.1-.75.08-.74.08-.74a2.52 2.52 0 0 1 1.84 1.24 2.56 2.56 0 0 0 3.5 1 2.55 2.55 0 0 1 .76-1.6c-2.67-.3-5.47-1.34-5.47-5.95a4.66 4.66 0 0 1 1.24-3.24 4.32 4.32 0 0 1 .12-3.2s1-.32 3.3 1.23a11.4 11.4 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23a4.32 4.32 0 0 1 .12 3.2 4.66 4.66 0 0 1 1.24 3.24c0 4.62-2.81 5.64-5.49 5.94a2.86 2.86 0 0 1 .82 2.22v3.3c0 .32.22.7.83.58A12 12 0 0 0 12 .5Z" />
+                        </svg>
+                    </a>
+                    <a href="https://minischetti.org" target="_blank" rel="noreferrer" aria-label="Portfolio">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M5 3a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5Zm7 2 7 7-7 7-7-7 7-7Zm0 3.83L8.83 12 12 15.17 15.17 12 12 8.83Z" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="footer-controls">
+                    <button type="button" class="button ghost" data-theme-toggle data-icon="theme" aria-label="Toggle theme">Switch Theme</button>
+                    <button type="button" class="button ghost" data-sound-toggle data-icon="sound" aria-label="Toggle sound">Sound On</button>
+                </div>
+            </div>
+        </footer>
+    </div>
 
     <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
-
-    <footer class="site-footer" aria-label="Footer">
-        <div class="footer-copy">
-            <span>&copy; 2025 Dominic Minischetti</span>
-            <p>Dedicated to optimizing performance and building scalable backend systems. I've been crafting fast, reliable solutions since 2012.</p>
-        </div>
-        <div class="footer-links" role="navigation" aria-label="External links">
-            <a href="<?= htmlspecialchars($repoUrl, ENT_QUOTES) ?>" target="_blank" rel="noreferrer" aria-label="GitHub">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2c-3.34.73-4.04-1.61-4.04-1.61a3.18 3.18 0 0 0-1.34-1.77c-1.1-.75.08-.74.08-.74a2.52 2.52 0 0 1 1.84 1.24 2.56 2.56 0 0 0 3.5 1 2.55 2.55 0 0 1 .76-1.6c-2.67-.3-5.47-1.34-5.47-5.95a4.66 4.66 0 0 1 1.24-3.24 4.32 4.32 0 0 1 .12-3.2s1-.32 3.3 1.23a11.4 11.4 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23a4.32 4.32 0 0 1 .12 3.2 4.66 4.66 0 0 1 1.24 3.24c0 4.62-2.81 5.64-5.49 5.94a2.86 2.86 0 0 1 .82 2.22v3.3c0 .32.22.7.83.58A12 12 0 0 0 12 .5Z" />
-                </svg>
-            </a>
-            <a href="https://minischetti.org" target="_blank" rel="noreferrer" aria-label="Portfolio">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M5 3a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5Zm7 2 7 7-7 7-7-7 7-7Zm0 3.83L8.83 12 12 15.17 15.17 12 12 8.83Z" />
-                </svg>
-            </a>
-        </div>
-        <div class="footer-controls">
-            <button type="button" class="button ghost" data-theme-toggle data-icon="theme" aria-label="Toggle theme">Switch Theme</button>
-            <button type="button" class="button ghost" data-sound-toggle data-icon="sound" aria-label="Toggle sound">Sound On</button>
-        </div>
-    </footer>
 
     <script type="module" src="<?= htmlspecialchars(basePathUri('js/main.js', $basePath), ENT_QUOTES) ?>?v=<?= htmlspecialchars($jsVersion, ENT_QUOTES) ?>"></script>
 </body>
