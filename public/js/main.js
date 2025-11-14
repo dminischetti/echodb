@@ -8,7 +8,6 @@ const timeline = new Timeline(document.getElementById('timeline'));
 const soundBoard = new SoundBoard();
 const toast = document.getElementById('toast');
 const streamingChip = document.querySelector('.chip.live');
-const THEME_STORAGE_KEY = 'echodb-theme';
 
 const stats = {
     insert: 0,
@@ -27,7 +26,6 @@ const randomButton = document.getElementById('randomPayload');
 const formatButton = document.getElementById('formatPayload');
 const resetButton = document.getElementById('resetPayload');
 const pauseButton = document.getElementById('pauseStream');
-const themeToggleButtons = Array.from(document.querySelectorAll('[data-theme-toggle]'));
 const soundToggleButtons = Array.from(document.querySelectorAll('[data-sound-toggle]'));
 const tabButtons = document.querySelectorAll('[data-tab-target]');
 const tabPanels = document.querySelectorAll('.tab-panel');
@@ -85,7 +83,6 @@ function init() {
     setInitialPayload();
     preload();
     bindDemoControls();
-    bindThemeToggles();
     bindSoundToggles();
     bindSoundUnlock();
     bindTabs();
@@ -354,54 +351,6 @@ function updatePauseButton() {
 function updateStreamingChip(label) {
     if (streamingChip) {
         streamingChip.textContent = label;
-    }
-}
-
-function bindThemeToggles() {
-    const storedTheme = readStoredThemePreference();
-    setTheme(storedTheme === 'light' ? 'light' : 'dark', false);
-
-    themeToggleButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-            const nextTheme = document.body.classList.contains('theme-light') ? 'dark' : 'light';
-            setTheme(nextTheme);
-        });
-    });
-}
-
-function setTheme(theme, persist = true) {
-    const useLight = theme === 'light';
-    document.body.classList.toggle('theme-light', useLight);
-    document.body.classList.toggle('theme-dark', !useLight);
-    if (persist) {
-        rememberThemePreference(theme);
-    }
-    updateThemeButtons();
-}
-
-function updateThemeButtons() {
-    const isLight = document.body.classList.contains('theme-light');
-    const label = isLight ? 'Dark Mode' : 'Light Mode';
-    themeToggleButtons.forEach((button) => {
-        button.textContent = label;
-        button.dataset.icon = 'theme';
-    });
-}
-
-function rememberThemePreference(theme) {
-    try {
-        localStorage.setItem(THEME_STORAGE_KEY, theme);
-    } catch (error) {
-        console.warn('Unable to persist theme preference', error);
-    }
-}
-
-function readStoredThemePreference() {
-    try {
-        return localStorage.getItem(THEME_STORAGE_KEY);
-    } catch (error) {
-        console.warn('Unable to read theme preference', error);
-        return null;
     }
 }
 

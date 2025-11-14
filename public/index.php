@@ -91,7 +91,7 @@ $apiStatsPath = basePathUri('api/stats', $basePath);
     <link rel="icon" href="<?= htmlspecialchars(basePathUri('assets/logo.svg', $basePath), ENT_QUOTES) ?>" type="image/svg+xml">
 </head>
 
-<body class="theme-dark" data-api-base="<?= htmlspecialchars($apiBase, ENT_QUOTES) ?>">
+<body data-api-base="<?= htmlspecialchars($apiBase, ENT_QUOTES) ?>">
     <div class="grain"></div>
     <header class="site-header" aria-label="Primary">
         <a href="#hero" class="brand" aria-label="<?= htmlspecialchars($appName) ?> home">
@@ -268,7 +268,6 @@ $apiStatsPath = basePathUri('api/stats', $basePath);
             <div class="section-heading">
                 <h2 id="docs-title">Docs &amp; API</h2>
                 <p>Everything you need to instrument your own dataset with EchoDB.</p>
-                <button type="button" class="button ghost" data-theme-toggle data-icon="theme" aria-label="Toggle theme">Switch Theme</button>
             </div>
             <div class="tabs" role="tablist" aria-label="Documentation tabs">
                 <button type="button" class="tab-button active" role="tab" aria-selected="true" data-tab-target="overview">Overview</button>
@@ -341,7 +340,6 @@ stream.addEventListener('update', (event) => {
             </a>
         </div>
         <div class="footer-controls">
-            <button type="button" class="button ghost" data-theme-toggle data-icon="theme" aria-label="Toggle theme">Switch Theme</button>
             <button type="button" class="button ghost" data-sound-toggle data-icon="sound" aria-label="Toggle sound">Sound On</button>
         </div>
     </footer>
