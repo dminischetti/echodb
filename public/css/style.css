@@ -37,6 +37,10 @@
     --radius-sm: 12px;
     --transition: 220ms cubic-bezier(0.22, 1, 0.36, 1);
     --font-family: 'Inter Tight', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --page-max: 80rem;
+    --section-max: 75rem;
+    --page-gutter: clamp(1.25rem, 4vw, 3rem);
+    --page-gutter-tight: clamp(1rem, 3.5vw, 2.25rem);
 }
 
 html {
@@ -58,7 +62,7 @@ body {
         radial-gradient(circle at 82% 12%, rgba(159, 140, 255, 0.16), transparent 45%),
         radial-gradient(circle at 18% 88%, rgba(255, 184, 107, 0.15), transparent 50%),
         linear-gradient(160deg, var(--bg) 0%, var(--bg-alt) 50%, var(--bg-elevated) 100%);
-    min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -105,13 +109,14 @@ body::after {
 main {
     flex: 1;
     display: grid;
-    gap: clamp(3rem, 5vw, 5.5rem);
-    padding: clamp(3rem, 6vw, 5rem) 1.25rem clamp(5rem, 8vw, 6rem);
+    gap: clamp(2.75rem, 5vw, 5.5rem);
+    padding-block: clamp(3rem, 6vw, 5rem) clamp(5rem, 8vw, 6.5rem);
+    padding-inline: var(--page-gutter);
 }
 
 main > section {
-    width: min(100%, 1200px);
-    margin: 0 auto;
+    width: min(100%, var(--section-max));
+    margin-inline: auto;
 }
 
 .site-header {
@@ -121,8 +126,9 @@ main > section {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 0.75rem;
-    padding: 1rem 1.25rem;
+    gap: clamp(0.5rem, 1.5vw, 0.75rem);
+    padding-block: clamp(0.85rem, 2vw, 1.25rem);
+    padding-inline: var(--page-gutter-tight);
     backdrop-filter: blur(18px);
     background: linear-gradient(180deg, rgba(9, 13, 19, 0.85), rgba(9, 13, 19, 0));
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
@@ -132,7 +138,7 @@ main > section {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
+    gap: clamp(0.65rem, 2vw, 0.85rem);
     color: inherit;
     text-decoration: none;
     font-weight: 600;
@@ -141,20 +147,20 @@ main > section {
 }
 
 .brand-mark {
-    width: 44px;
-    height: 44px;
+    width: clamp(2.6rem, 7vw, 2.9rem);
+    height: clamp(2.6rem, 7vw, 2.9rem);
     filter: drop-shadow(0 12px 30px rgba(79, 195, 247, 0.25));
 }
 
 .brand-name {
-    font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+    font-size: clamp(1.1rem, 2.2vw, 1.45rem);
 }
 
 .site-nav {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.75rem;
+    gap: clamp(0.5rem, 2.2vw, 1rem);
     font-size: 0.95rem;
     justify-content: center;
     width: 100%;
@@ -168,7 +174,7 @@ main > section {
     font-weight: 500;
     position: relative;
     transition: color var(--transition);
-    padding: 0.4rem 0.65rem;
+    padding: clamp(0.35rem, 1vw, 0.45rem) clamp(0.55rem, 2vw, 0.8rem);
     border-radius: 999px;
 }
 
@@ -196,7 +202,7 @@ main > section {
 }
 
 .hero {
-    min-height: min(100vh, 840px);
+    min-height: min(100svh, 840px);
     display: grid;
     place-items: center;
     padding: clamp(3.5rem, 8vh, 5.5rem) 0 clamp(4.5rem, 12vh, 7rem);
@@ -206,12 +212,12 @@ main > section {
 .hero-panel {
     position: relative;
     width: 100%;
-    max-width: 1120px;
+    max-width: min(100%, var(--section-max));
     margin: 0 auto;
-    padding: clamp(2.4rem, 6vw, 4.2rem);
+    padding: clamp(2.2rem, 5vw, 4rem);
     overflow: hidden;
     display: grid;
-    gap: 2.4rem;
+    gap: clamp(1.75rem, 4vw, 2.5rem);
     animation: floatHero 16s ease-in-out infinite;
 }
 
@@ -287,7 +293,7 @@ main > section {
     position: relative;
     z-index: 2;
     display: grid;
-    gap: 1.8rem;
+    gap: clamp(1.35rem, 3vw, 1.8rem);
 }
 
 .eyebrow {
@@ -299,24 +305,25 @@ main > section {
 
 .hero h1 {
     margin: 0;
-    font-size: clamp(3.2rem, 8vw, 4.6rem);
+    font-size: clamp(2.4rem, 7vw, 4.6rem);
     letter-spacing: -0.02em;
 }
 
 .hero-lede {
-    font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+    font-size: clamp(1rem, 1.9vw, 1.4rem);
     color: var(--text-secondary);
     max-width: 52ch;
     line-height: 1.6;
+    text-wrap: pretty;
 }
 
 .hero-actions {
     display: grid;
-    gap: 0.75rem;
+    gap: clamp(0.65rem, 2vw, 1rem);
 }
 
 .hero-actions .button {
-    width: 100%;
+    width: min(100%, 18rem);
 }
 
 .button {
@@ -327,14 +334,15 @@ main > section {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    padding: 0.9rem 1.6rem;
+    gap: clamp(0.45rem, 2vw, 0.65rem);
+    padding: clamp(0.85rem, 2.6vw, 1rem) clamp(1.4rem, 4vw, 1.9rem);
     border-radius: 999px;
     border: 1px solid var(--btn-border);
     color: var(--btn-color);
     text-decoration: none;
     font-weight: 500;
-    letter-spacing: 0.08em;
+    letter-spacing: clamp(0.06em, 0.35vw, 0.1em);
+    font-size: clamp(0.75rem, 1.8vw, 0.9rem);
     text-transform: uppercase;
     background: var(--btn-bg);
     cursor: pointer;
@@ -424,7 +432,7 @@ main > section {
 }
 
 .hero-meta dt {
-    font-size: 0.7rem;
+    font-size: clamp(0.65rem, 1.3vw, 0.75rem);
     letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--text-muted);
@@ -433,14 +441,15 @@ main > section {
 
 .hero-meta dd {
     margin: 0;
-    font-size: 0.95rem;
+    font-size: clamp(0.95rem, 1.6vw, 1.1rem);
     color: var(--text-secondary);
 }
 
 .section {
-    padding: clamp(2.75rem, 6vw, 3.5rem) clamp(1.25rem, 4vw, 2.75rem);
+    padding-block: clamp(2.5rem, 5vw, 3.25rem);
+    padding-inline: clamp(1.25rem, 4.5vw, 3rem);
     display: grid;
-    gap: clamp(2rem, 4vw, 3rem);
+    gap: clamp(1.8rem, 3.5vw, 2.75rem);
     position: relative;
     z-index: 0;
 }
@@ -472,6 +481,7 @@ main > section {
     margin: 0;
     font-size: clamp(2.2rem, 5vw, 3rem);
     letter-spacing: -0.015em;
+    text-wrap: balance;
 }
 
 .section-heading p {
@@ -479,18 +489,19 @@ main > section {
     color: var(--text-secondary);
     max-width: clamp(35ch, 70vw, 60ch);
     line-height: 1.6;
+    text-wrap: pretty;
 }
 
 .demo-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: clamp(1.5rem, 3vw, 2.5rem);
+    grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+    gap: clamp(1.4rem, 3vw, 2.4rem);
 }
 
 .demo-card {
-    padding: clamp(1.8rem, 3vw, 2.4rem);
+    padding: clamp(1.6rem, 3vw, 2.4rem);
     display: grid;
-    gap: 1.6rem;
+    gap: clamp(1.4rem, 3vw, 2rem);
     position: relative;
     overflow: hidden;
 }
@@ -516,30 +527,37 @@ main > section {
 
 .card-header {
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
+    align-items: flex-start;
     justify-content: space-between;
-    gap: 1rem;
+    gap: clamp(0.75rem, 3vw, 1.1rem);
+}
+
+.card-header > div {
+    flex: 1 1 220px;
+    min-width: min(100%, 16rem);
 }
 
 .card-header h3 {
     margin: 0;
-    font-size: 1.35rem;
+    font-size: clamp(1.1rem, 2.4vw, 1.4rem);
 }
 
 .card-subtitle {
     margin: 0.35rem 0 0;
     color: var(--text-muted);
-    font-size: 0.95rem;
+    font-size: clamp(0.9rem, 1.6vw, 1rem);
 }
 
 .chip {
-    padding: 0.35rem 0.8rem;
+    padding: clamp(0.3rem, 1vw, 0.45rem) clamp(0.65rem, 2vw, 0.85rem);
     border-radius: 999px;
     background: var(--chip-bg);
     color: var(--text-secondary);
-    font-size: 0.75rem;
-    letter-spacing: 0.18em;
+    font-size: clamp(0.65rem, 1vw, 0.75rem);
+    letter-spacing: clamp(0.12em, 0.5vw, 0.18em);
     text-transform: uppercase;
+    flex: 0 0 auto;
 }
 
 .chip.live {
@@ -549,15 +567,15 @@ main > section {
 
 textarea {
     width: 100%;
-    min-height: clamp(220px, 40vh, 320px);
+    min-height: clamp(220px, 45vh, 340px);
     border-radius: var(--radius-md);
     border: 1px solid rgba(255, 255, 255, 0.14);
     background: rgba(10, 15, 24, 0.4);
     color: var(--text-primary);
     font-family: 'JetBrains Mono', 'Fira Code', SFMono-Regular, Consolas, monospace;
-    font-size: 0.95rem;
+    font-size: clamp(0.9rem, 1.5vw, 1rem);
     line-height: 1.6;
-    padding: 1.2rem 1.4rem;
+    padding: clamp(1rem, 2.5vw, 1.4rem);
     resize: vertical;
     transition: border var(--transition), box-shadow var(--transition);
 }
@@ -571,14 +589,19 @@ textarea:focus-visible {
 .editor-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    gap: clamp(0.65rem, 2vw, 0.9rem);
+}
+
+.editor-actions .button {
+    flex: 1 1 180px;
+    min-width: min(100%, 12rem);
 }
 
 .visual-stage {
     border-radius: var(--radius-md);
     border: 1px solid rgba(255, 255, 255, 0.18);
     background: linear-gradient(135deg, rgba(79, 195, 247, 0.16), rgba(128, 203, 196, 0.12));
-    padding: 1.2rem;
+    padding: clamp(1rem, 3vw, 1.5rem);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -602,7 +625,7 @@ textarea:focus-visible {
 
 .node-label {
     fill: var(--text-primary);
-    font-size: 1rem;
+    font-size: clamp(0.85rem, 1.6vw, 1rem);
     letter-spacing: 0.05em;
     text-anchor: middle;
     dominant-baseline: middle;
@@ -632,8 +655,8 @@ textarea:focus-visible {
 
 .live-stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1.2rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr));
+    gap: clamp(0.9rem, 2.5vw, 1.4rem);
     align-items: end;
 }
 
@@ -643,46 +666,46 @@ textarea:focus-visible {
 }
 
 .stat .label {
-    font-size: 0.75rem;
+    font-size: clamp(0.65rem, 1.4vw, 0.8rem);
     text-transform: uppercase;
     letter-spacing: 0.25em;
     color: var(--text-muted);
 }
 
 .stat .value {
-    font-size: 1.8rem;
+    font-size: clamp(1.4rem, 3.6vw, 2rem);
     font-weight: 600;
 }
 
 #sparkline {
     grid-column: 1 / -1;
     width: 100%;
-    height: 64px;
+    height: clamp(3rem, 6vw, 4.5rem);
 }
 
 .timeline-panel {
     border-radius: var(--radius-md);
     border: 1px solid rgba(255, 255, 255, 0.14);
     background: rgba(6, 9, 14, 0.35);
-    padding: 1.2rem 1.4rem;
+    padding: clamp(1rem, 2.5vw, 1.4rem);
     display: grid;
-    gap: 1rem;
+    gap: clamp(0.85rem, 2vw, 1.1rem);
 }
 
 .panel-heading {
     display: grid;
-    gap: 0.35rem;
+    gap: clamp(0.3rem, 1.2vw, 0.5rem);
 }
 
 .panel-heading h4 {
     margin: 0;
-    font-size: 1.1rem;
+    font-size: clamp(1rem, 2vw, 1.2rem);
 }
 
 .panel-heading p {
     margin: 0;
     color: var(--text-muted);
-    font-size: 0.8rem;
+    font-size: clamp(0.7rem, 1.4vw, 0.85rem);
     letter-spacing: 0.16em;
     text-transform: uppercase;
 }
@@ -692,10 +715,10 @@ textarea:focus-visible {
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 1rem;
-    max-height: min(320px, 55vh);
+    gap: clamp(0.85rem, 2vw, 1.1rem);
+    max-height: clamp(260px, 50vh, 360px);
     overflow-y: auto;
-    padding-right: 0.4rem;
+    padding-right: clamp(0.25rem, 1vw, 0.5rem);
 }
 
 .timeline li {
@@ -703,7 +726,7 @@ textarea:focus-visible {
     border-left: 2px solid rgba(79, 195, 247, 0.4);
     position: relative;
     display: grid;
-    gap: 0.4rem;
+    gap: clamp(0.3rem, 1.2vw, 0.5rem);
     transition: transform var(--transition);
 }
 
@@ -736,16 +759,16 @@ textarea:focus-visible {
 .timeline .meta {
     display: flex;
     justify-content: space-between;
-    font-size: 0.8rem;
+    font-size: clamp(0.7rem, 1.4vw, 0.85rem);
     color: var(--text-muted);
     gap: 1rem;
 }
 
 .timeline .diff {
     font-family: 'JetBrains Mono', 'Fira Code', SFMono-Regular, Consolas, monospace;
-    font-size: 0.85rem;
+    font-size: clamp(0.8rem, 1.6vw, 0.95rem);
     display: grid;
-    gap: 0.3rem;
+    gap: clamp(0.25rem, 1vw, 0.4rem);
 }
 
 .timeline .diff em {
@@ -759,7 +782,7 @@ textarea:focus-visible {
 .demo-controls {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: clamp(0.75rem, 2.5vw, 1.1rem);
     justify-content: center;
 }
 
@@ -771,20 +794,22 @@ textarea:focus-visible {
     display: grid;
     grid-template-columns: 1fr;
     align-items: center;
-    gap: 1rem;
+    gap: clamp(0.9rem, 2.5vw, 1.25rem);
+    justify-items: center;
 }
 
 .arch-node {
     position: relative;
     text-align: center;
-    padding: 1.4rem 1rem;
+    padding: clamp(1.1rem, 2.5vw, 1.6rem) clamp(0.9rem, 2vw, 1.1rem);
     border-radius: var(--radius-md);
     background: rgba(12, 17, 25, 0.45);
     border: 1px solid rgba(255, 255, 255, 0.12);
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    font-size: 0.85rem;
+    font-size: clamp(0.75rem, 1.4vw, 0.9rem);
     cursor: default;
+    width: min(100%, 20rem);
 }
 
 .arch-node::after {
@@ -794,11 +819,11 @@ textarea:focus-visible {
     bottom: calc(100% + 0.75rem);
     transform: translateX(-50%);
     background: rgba(12, 18, 26, 0.9);
-    padding: 0.65rem 0.9rem;
+    padding: clamp(0.55rem, 1.6vw, 0.75rem) clamp(0.75rem, 2vw, 1rem);
     border-radius: var(--radius-sm);
     border: 1px solid rgba(255, 255, 255, 0.12);
     color: var(--text-secondary);
-    font-size: 0.75rem;
+    font-size: clamp(0.7rem, 1.3vw, 0.85rem);
     line-height: 1.4;
     width: min(260px, 80vw);
     opacity: 0;
@@ -822,25 +847,26 @@ textarea:focus-visible {
 
 .architecture-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+    gap: clamp(1.2rem, 3vw, 1.8rem);
 }
 
 .arch-card {
-    padding: 2rem;
+    padding: clamp(1.6rem, 3vw, 2.2rem);
     display: grid;
-    gap: 0.75rem;
+    gap: clamp(0.65rem, 2vw, 0.9rem);
 }
 
 .arch-card h3 {
     margin: 0;
-    font-size: 1.3rem;
+    font-size: clamp(1.1rem, 2.2vw, 1.35rem);
 }
 
 .arch-card p {
     margin: 0;
     color: var(--text-secondary);
     line-height: 1.6;
+    text-wrap: pretty;
 }
 
 .docs .section-heading {
@@ -851,10 +877,10 @@ textarea:focus-visible {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 0.6rem;
+    gap: clamp(0.5rem, 2vw, 0.75rem);
     background: rgba(9, 13, 19, 0.4);
     border-radius: 999px;
-    padding: 0.4rem;
+    padding: clamp(0.3rem, 1.2vw, 0.5rem);
     width: 100%;
 }
 
@@ -864,17 +890,17 @@ textarea:focus-visible {
 }
 
 .tab-button {
-    padding: 0.65rem 1.6rem;
+    padding: clamp(0.6rem, 1.5vw, 0.8rem) clamp(1.2rem, 3vw, 1.7rem);
     border-radius: 999px;
     border: none;
     background: transparent;
     color: var(--text-muted);
     font-weight: 500;
-    letter-spacing: 0.16em;
+    letter-spacing: clamp(0.12em, 0.4vw, 0.18em);
     text-transform: uppercase;
     cursor: pointer;
     transition: background var(--transition), color var(--transition);
-    flex: 1 1 140px;
+    flex: 1 1 clamp(140px, 30vw, 220px);
 }
 
 .tab-button.active {
@@ -891,10 +917,10 @@ textarea:focus-visible {
     border-radius: var(--radius-lg);
     border: 1px solid rgba(255, 255, 255, 0.14);
     background: rgba(6, 9, 14, 0.35);
-    padding: clamp(1.8rem, 3vw, 2.4rem);
+    padding: clamp(1.6rem, 3vw, 2.4rem);
     line-height: 1.7;
     color: var(--text-secondary);
-    gap: 1.2rem;
+    gap: clamp(0.9rem, 2.2vw, 1.4rem);
 }
 
 .tab-panel.active {
@@ -906,12 +932,12 @@ textarea:focus-visible {
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 0.8rem;
+    gap: clamp(0.7rem, 2vw, 1rem);
 }
 
 .bullet-grid li {
     position: relative;
-    padding-left: 1.6rem;
+    padding-left: clamp(1.4rem, 3vw, 1.8rem);
 }
 
 .bullet-grid li::before {
@@ -931,20 +957,20 @@ textarea:focus-visible {
     border-radius: var(--radius-md);
     border: 1px solid rgba(255, 255, 255, 0.16);
     background: rgba(6, 9, 14, 0.75);
-    padding: 1.4rem 1.6rem;
+    padding: clamp(1.1rem, 2.5vw, 1.6rem);
     overflow-x: auto;
 }
 
 .copy-button {
     position: absolute;
-    top: 0.9rem;
-    right: 0.9rem;
+    top: clamp(0.65rem, 2vw, 0.9rem);
+    right: clamp(0.65rem, 2vw, 0.9rem);
     border: none;
     border-radius: 999px;
-    padding: 0.4rem 0.9rem;
+    padding: clamp(0.35rem, 1vw, 0.5rem) clamp(0.7rem, 2vw, 1rem);
     text-transform: uppercase;
-    letter-spacing: 0.18em;
-    font-size: 0.65rem;
+    letter-spacing: clamp(0.12em, 0.5vw, 0.18em);
+    font-size: clamp(0.6rem, 1.2vw, 0.75rem);
     cursor: pointer;
     background: rgba(79, 195, 247, 0.18);
     color: var(--accent-primary);
@@ -953,7 +979,7 @@ textarea:focus-visible {
 pre {
     margin: 0;
     font-family: 'JetBrains Mono', 'Fira Code', SFMono-Regular, Consolas, monospace;
-    font-size: 0.9rem;
+    font-size: clamp(0.85rem, 1.8vw, 0.95rem);
     line-height: 1.6;
     white-space: pre;
     color: var(--text-primary);
@@ -973,20 +999,20 @@ pre {
 .table-scroll table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 560px;
+    min-width: clamp(32rem, 90vw, 56rem);
 }
 
 .table-scroll th,
 .table-scroll td {
     padding: 0.6rem 0.8rem;
     text-align: left;
-    font-size: 0.85rem;
+    font-size: clamp(0.8rem, 1.6vw, 0.95rem);
     color: var(--text-secondary);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .table-scroll th {
-    font-size: 0.75rem;
+    font-size: clamp(0.65rem, 1.2vw, 0.8rem);
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--text-muted);
@@ -1041,27 +1067,28 @@ pre {
 .site-footer {
     margin-top: clamp(3rem, 7vw, 5rem);
     display: grid;
-    gap: 1.5rem;
+    gap: clamp(1.25rem, 3vw, 1.8rem);
     justify-items: center;
-    padding: 2.5rem 1.5rem 3rem;
+    padding-block: clamp(2.4rem, 5vw, 3.4rem) clamp(2.8rem, 6vw, 3.8rem);
+    padding-inline: var(--page-gutter);
     background: rgba(9, 13, 19, 0.68);
     backdrop-filter: blur(15px);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    font-size: 0.9rem;
+    font-size: clamp(0.85rem, 1.2vw, 0.95rem);
     color: var(--text-muted);
 }
 
 .footer-links {
     display: flex;
     justify-content: center;
-    gap: 1.2rem;
+    gap: clamp(0.9rem, 2.5vw, 1.3rem);
     flex-wrap: wrap;
 }
 
 .footer-links a {
     display: inline-flex;
-    width: 36px;
-    height: 36px;
+    width: clamp(2.3rem, 4vw, 2.75rem);
+    height: clamp(2.3rem, 4vw, 2.75rem);
     align-items: center;
     justify-content: center;
     border-radius: 50%;
@@ -1071,8 +1098,8 @@ pre {
 }
 
 .footer-links a svg {
-    width: 18px;
-    height: 18px;
+    width: clamp(1.1rem, 2vw, 1.25rem);
+    height: clamp(1.1rem, 2vw, 1.25rem);
     fill: currentColor;
 }
 
@@ -1086,7 +1113,7 @@ pre {
     display: grid;
     gap: 0.5rem;
     text-align: center;
-    max-width: 60ch;
+    max-width: min(60ch, 100%);
 }
 
 .footer-copy p {
@@ -1097,7 +1124,7 @@ pre {
 
 .footer-controls {
     display: flex;
-    gap: 0.75rem;
+    gap: clamp(0.65rem, 2vw, 0.9rem);
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -1115,7 +1142,7 @@ pre {
 }
 
 /* Responsive breakpoints */
-@media (min-width: 640px) {
+@media (min-width: 480px) {
     .site-header {
         flex-direction: row;
         align-items: center;
@@ -1129,7 +1156,7 @@ pre {
     }
 
     .site-nav {
-        gap: clamp(1rem, 2.4vw, 1.75rem);
+        gap: clamp(0.9rem, 2.6vw, 1.5rem);
         width: auto;
         justify-content: flex-end;
     }
@@ -1141,6 +1168,7 @@ pre {
 
     .hero-actions .button {
         justify-content: center;
+        width: 100%;
     }
 
     .editor-actions {
@@ -1149,13 +1177,10 @@ pre {
 }
 
 @media (min-width: 768px) {
-    main {
-        padding-inline: clamp(2rem, 6vw, 3rem);
-    }
-
     .section-heading {
-        grid-template-columns: minmax(0, 1fr) auto;
-        align-items: center;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+        gap: clamp(1rem, 3vw, 1.5rem);
+        align-items: flex-start;
     }
 
     .hero {
@@ -1163,7 +1188,7 @@ pre {
     }
 
     .hero-actions {
-        gap: 1rem;
+        gap: clamp(0.85rem, 2vw, 1.2rem);
     }
 
     .panel-heading {
@@ -1173,6 +1198,10 @@ pre {
 
     .demo-controls {
         justify-content: center;
+    }
+
+    .architecture-diagram {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 
@@ -1195,7 +1224,7 @@ pre {
 
     .architecture-diagram {
         grid-template-columns: repeat(5, minmax(0, 1fr));
-        gap: 1.25rem;
+        gap: clamp(1rem, 2vw, 1.5rem);
     }
 
     .arch-link {
@@ -1221,7 +1250,7 @@ pre {
 
 @media (min-width: 1280px) {
     main > section {
-        width: min(100%, 1280px);
+        width: min(100%, var(--page-max));
     }
 
     .hero-panel {
@@ -1229,7 +1258,8 @@ pre {
     }
 
     .section {
-        padding: clamp(3rem, 5vw, 3.75rem) clamp(2rem, 4vw, 3.25rem);
+        padding-block: clamp(3rem, 5vw, 3.75rem);
+        padding-inline: clamp(2rem, 4vw, 3.5rem);
     }
 }
 
