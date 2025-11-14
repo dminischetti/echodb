@@ -54,6 +54,10 @@ class EventStore
         $changes = $this->sanitizeChanges($table, $changes, $type);
 
         $existingRow = $this->fetchRow($table, $rowId);
+        if ($type === 'insert' && $existingRow !== null) {
+            throw new InvalidArgumentException('Row already exists. Choose a different row_id or use an update mutation.');
+        }
+
         if ($existingRow === null && $type !== 'insert') {
             throw new InvalidArgumentException('Target row not found.');
         }
