@@ -54,7 +54,7 @@ function setInitialPayload() {
     }
     const sample = {
         table: 'orders',
-        row_id: 101,
+        row_id: 1,
         type: 'update',
         actor: 'demo-user',
         changes: {
